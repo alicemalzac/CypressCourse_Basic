@@ -1,18 +1,23 @@
 {
   "name": "cypresscourse_basic",
   "version": "1.0.0",
-  "description": "",
+  "description": "Project developed during Cypress Basic Course.",
   "main": "index.js",
   "scripts": {
     "cy:open": "cypress open",
-    "test": "cypress run"
+    "test": "cypress run",
+    "cy:open:mobile": "cypress open --config viewportWidth=370 viewportHeight=660"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alicemalzac/CypressCourse_Basic.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "Testing", 
+    "Cypress.io", 
+    "Cypress course"
+  ],
+  "author": "Alice Malzac",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/alicemalzac/CypressCourse_Basic/issues"

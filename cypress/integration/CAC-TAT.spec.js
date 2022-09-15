@@ -26,7 +26,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#firstName').type('Alice')
     cy.get('#lastName').type('Alice')
     cy.get('#email').type('alice@alice,com')
-    cy.get('#open-text-area').type(longText, {delay: 0})
+    cy.get('#open-text-area').type('Teste')
     cy.contains('button', 'Enviar').click()
 
     cy.get('.error').should('be.visible')
@@ -169,7 +169,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
       .should('not.have.value')
       .selectFile('./cypress/fixtures/example.json') //adicionou o arquivo no input
       .should(($input) => {
-        expect($input[0].files[0].name).to.equal(example.json) //navegou entre as propriedades do objeto para verificar se o arquivo que entrou foi o enviado
+        expect($input[0].files[0].name).to.equal('example.json') //navegou entre as propriedades do objeto para verificar se o arquivo que entrou foi o enviado
       })
   })
 
@@ -177,20 +177,35 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     
     cy.get('input[type="file"]')
       .should('not.have.value')
-      .selectFile('./cypress/fixtures/example.json', {action: 'drag-and-drop'}) //adicionou o arquivo no input arrastando o arquivo 
+      .selectFile('./cypress/fixtures/example.json', {action: 'drag-drop'}) //adicionou o arquivo no input arrastando o arquivo 
       .should(($input) => {
-        expect($input[0].files[0].name).to.equal(example.json) //navegou entre as propriedades do objeto para verificar se o arquivo que entrou foi o enviado
+        expect($input[0].files[0].name).to.equal('example.json') //navegou entre as propriedades do objeto para verificar se o arquivo que entrou foi o enviado
       })
   })
 
   it('Seleciona um arquivo utilizando uma fixture para a qual foi dada um alias', () => {
     
+    cy.fixture('example').as('sampleFile')
+
     cy.get('input[type="file"]')
-      .should('not.have.value')
-      .selectFile('./cypress/fixtures/example.json', {action: 'drag-and-drop'}) //adicionou o arquivo no input arrastando o arquivo 
+      .selectFile('@sampleFile') //adicionou o arquivo no input arrastando o arquivo 
       .should(($input) => {
-        expect($input[0].files[0].name).to.equal(example.json) //navegou entre as propriedades do objeto para verificar se o arquivo que entrou foi o enviado
+        expect($input[0].files[0].name).to.equal('example') //navegou entre as propriedades do objeto para verificar se o arquivo que entrou foi o enviado
       })
   })
+  
+  it('Verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', () => {
 
+    cy.get('#privacy a') //seleciona o âncora que ta dentro do elemento com id privacy
+      .should('have.attr', 'target', '_blank') //tem o atributo target com valor blank 
+  }) 
+
+  it('Acessa a página da política de privacidade removendo o target e então clicanco no link', () => {
+    
+    cy.get('#privacy a')
+      .invoke('removeAttr', 'target') 
+      .click()
+    
+    cy.contains('CAC TAT - Política de privacidade').should('be.visible')
+  })
 })
